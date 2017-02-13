@@ -1,0 +1,58 @@
+# file SPole_winter.amc
+? 
+? usage: am SPole_winter.amc  fmin[GHz]  fmax[GHz]  zenith_angle[deg]  pwv[um]
+?
+# The vertical temperature, O3, and H2O profiles in this file are winter
+# (June - August) medians compiled from NOAA South Pole ozonesonde data
+# covering the years 1986 - 2004.  The data are courtesy of the NOAA Climate
+# Monitoring and Diagnostics Laboratory, Boulder, Colorado.
+#
+# The CMDL data archive may be accessed through
+#	http://www.cmdl.noaa.gov/info/ftpdata.html.
+# For background information, see J. Harris, et al., ch. 4 in NOAA CMDL
+# Summary Report #27, on the web at
+#	http://www.cmdl.noaa.gov/publications/annrpt27/ozonewater4.pdf.
+#
+# The median winter H2O profile has a total column density of 450 um pwv above
+# 680 mbar. It has been rescaled here to 1 um to permit specificiation of the
+# H2O column in precipitable microns on the am command line.
+
+f %1 GHz  %2 GHz  20.0 MHz
+output f GHz  tau  Tb K I watt*cm-2*GHz-1*sr-1
+za %3 deg
+tol 0.0001
+PTmode Pbase Tbase
+
+Nscale h2o_lines 0
+Nscale h2o_continuum 0
+Nscale h2o_optical_refractivity 0
+
+Nscale ch4 0
+Nscale co 0
+Nscale co2 0
+Nscale n2o 0
+Nscale o2_coupled 0
+Nscale o2_uncoupled 0
+Nscale n2air 0
+Nscale o2air 0
+Nscale o3 1e-4
+
+T0 0 K
+
+layer
+Pbase 0 mbar
+Tbase 249 K # so T(5 mb) = 223 K, sonde data extrapolated using CIRA-86 table
+
+layer
+Pbase 10 mbar
+Tbase 197 K
+column ch4 hydrostatic
+column co hydrostatic
+column co2 hydrostatic
+column n2o hydrostatic
+column o2_coupled hydrostatic
+column o2_uncoupled hydrostatic
+column n2air hydrostatic
+column o2air hydrostatic
+column o3 hydrostatic 4.1e-6
+
